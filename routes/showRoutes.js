@@ -5,27 +5,23 @@ const Episode = require('../models/episode');
 const { body, validationResult } = require('express-validator');
 const upload = require('../multer.config');
 
-router.get('/', (req, res) => {
-	res.render('home.njk', { isAuthenticated: req.isAuthenticated() });
-});
-
-router.get('/privacy-first', (req, res) => {
-	res.render('privacy-first.njk', { isAuthenticated: req.isAuthenticated() });
-});
+// Middleware to ensure user is authenticated
+const ensureAuthenticated = (req, res, next) => {
+	if (!req.isAuthenticated()) {
+		return res.redirect('/login');
+	}
+	next();
+};
 
 // Routes to create a new show
-router.get('/create-show', (req, res) => {
-	res.render('create-show.njk', { isAuthenticated: req.isAuthenticated() });
+router.get('/create-show', ensureAuthenticated, (req, res) => {
+	res.render('create-show.njk', { isAuthenticated: true });
 });
 
-router.post('/create-show', [body('title').trim().escape()], upload.single('showImage'), async (req, res) => {
+router.post('/create-show', ensureAuthenticated, [body('title').trim().escape()], upload.single('showImage'), async (req, res) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.status(404).json({ errors: errors.array() });
-	}
-
-	if (!req.isAuthenticated()) {
-		return res.redirect('/login');
 	}
 
 	const { title } = req.body;
@@ -45,10 +41,7 @@ router.post('/create-show', [body('title').trim().escape()], upload.single('show
 });
 
 // Route to create a new episode
-router.post('/create-episode/:showId', async (req, res) => {
-	if (!req.isAuthenticated()) {
-		return res.redirect('/login');
-	}
+router.post('/create-episode/:showId', ensureAuthenticated, async (req, res) => {
 	const { title } = req.body;
 	const showId = req.params.showId;
 	const newEpisode = new Episode({
@@ -65,21 +58,12 @@ router.post('/create-episode/:showId', async (req, res) => {
 });
 
 // Route to view shows and episodes
-router.get('/my-shows', async (req, res) => {
-	res.locals.isAuthenticated = req.isAuthenticated();
-
-	if (!req.isAuthenticated()) {
-		return res.redirect('/login');
-	}
+router.get('/my-shows', ensureAuthenticated, async (req, res) => {
 	const shows = await Show.find({ userId: req.user.id }).populate('episodes');
-	res.render('my-shows.njk', { shows });
+	res.render('my-shows.njk', { shows, isAuthenticated: true });
 });
 
-router.get('/show/:showId', async (req, res) => {
-	if (!req.isAuthenticated()) {
-		return res.redirect('/login');
-	}
-
+router.get('/show/:showId', ensureAuthenticated, async (req, res) => {
 	const showId = req.params.showId;
 	const show = await Show.findById(showId).populate('episodes');
 
@@ -87,14 +71,10 @@ router.get('/show/:showId', async (req, res) => {
 		return res.status(404).send('Show not found or unauthorized');
 	}
 
-	res.render('show.njk', { show, isAuthenticated: req.isAuthenticated() });
+	res.render('show.njk', { show, isAuthenticated: true });
 });
 
-router.post('/delete-show/:showId', async (req, res) => {
-	if (!req.isAuthenticated()) {
-		return res.redirect('/login');
-	}
-
+router.post('/delete-show/:showId', ensureAuthenticated, async (req, res) => {
 	try {
 		const show = await Show.findById(req.params.showId);
 		// const show = await Show.findOne({ _id: req.params.showId });

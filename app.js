@@ -13,6 +13,7 @@ const multer = require('multer');
 
 //// require Routes
 const authRoutes = require('./routes/authRoutes');
+const pageRoutes = require('./routes/pageRoutes');
 const showRoutes = require('./routes/showRoutes');
 const userRoutes = require('./routes/userRoutes');
 
@@ -46,6 +47,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(authRoutes);
+app.use(pageRoutes);
 app.use(showRoutes);
 app.use(userRoutes);
 
