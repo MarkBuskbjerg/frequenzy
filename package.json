@@ -1,0 +1,47 @@
+{
+	"name": "y",
+	"version": "0.0.1",
+	"description": "A podcast hosting SaaS built with privacy in mind",
+	"main": "app.js",
+	"nodemonConfig": {
+		"ext": "js"
+	},
+	"scripts": {
+		"start": "nodemon app.js",
+		"build-css": "tailwindcss build styles.css -o public/output.css",
+		"watch-css": "chokidar '**/*.css' '**/*.njk' -c 'npm run build-css'",
+		"dev": "npm-run-all --parallel start watch-css"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/MarkBuskbjerg/raydio.git"
+	},
+	"author": "Mark Buskbjerg",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/MarkBuskbjerg/raydio/issues"
+	},
+	"homepage": "https://github.com/MarkBuskbjerg/raydio#readme",
+	"dependencies": {
+		"@tailwindcss/forms": "^0.5.6",
+		"@tailwindcss/typography": "^0.5.10",
+		"autoprefixer": "^10.4.16",
+		"bcrypt": "^5.1.1",
+		"connect-flash": "^0.1.1",
+		"dotenv": "^16.3.1",
+		"ejs": "^3.1.9",
+		"express": "^4.18.2",
+		"express-session": "^1.17.3",
+		"mongoose": "^8.0.0",
+		"nunjucks": "^3.2.4",
+		"passport": "^0.6.0",
+		"passport-local": "^1.0.0",
+		"postcss": "^8.4.31",
+		"tailwindcss": "^3.3.5"
+	},
+	"devDependencies": {
+		"chokidar-cli": "^3.0.0",
+		"nodemon": "^3.0.1",
+		"npm-run-all": "^4.1.5"
+	}
+}

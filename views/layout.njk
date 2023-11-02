@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Add your head content here -->
+		<link rel="stylesheet" href="/output.css"/>
+	</head>
+	<body>
+		{% include "header.njk" %}
+
+		<div class="max-w-7xl mx-auto px-6 lg:px-8">
+			{% if title %}
+				<h1 class="text-gray-900 text-4xl font-black">{{ title }}</h1>
+			{% endif %}
+			{% block content %}{% endblock %}
+		</div>
+	</body>
+</html>
