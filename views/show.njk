@@ -2,6 +2,15 @@
 
 {% set title = show.title %}
 {% block content %}
+    {# <form action="/delete-show/{{ show._id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this show?')"> #}
+    <form action="/delete-show/{{ show._id }}" method="POST">
+        <button type="submit">Delete Show</button>
+    </form>
+    <img 
+        class="w-9 h-9"
+        src="{{ show.imageUrl | replace("\\", "/") }}" 
+        alt="Cover for the show {{ show.title }}"
+    >
 
     <h3>Episodes:</h3>
     <ul>

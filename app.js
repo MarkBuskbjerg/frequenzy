@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt');
 require('dotenv').config();
 const app = express();
 const flash = require('connect-flash');
+const multer = require('multer');
 
 //// require Routes
 const authRoutes = require('./routes/authRoutes');
