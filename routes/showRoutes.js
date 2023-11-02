@@ -60,4 +60,19 @@ router.get('/my-shows', async (req, res) => {
 	res.render('my-shows.njk', { shows });
 });
 
+router.get('/show/:showId', async (req, res) => {
+	if (!req.isAuthenticated()) {
+		return res.redirect('/login');
+	}
+
+	const showId = req.params.showId;
+	const show = await Show.findById(showId).populate('episodes');
+
+	if (!show || show.userId.toString() !== req.user.id.toString()) {
+		return res.status(404).send('Show not found or unauthorized');
+	}
+
+	res.render('show.njk', { show });
+});
+
 module.exports = router;

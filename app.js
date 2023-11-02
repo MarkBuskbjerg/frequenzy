@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
 const nunjucks = require('nunjucks');
 const session = require('express-session');
 const passport = require('passport');
@@ -12,6 +13,7 @@ const flash = require('connect-flash');
 //// require Routes
 const authRoutes = require('./routes/authRoutes');
 const showRoutes = require('./routes/showRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 //// require MODELS
 const User = require('./models/user');
@@ -31,6 +33,12 @@ app.use(
 		secret: process.env.SESSION_SECRET,
 		resave: false,
 		saveUninitialized: false,
+		store: new MongoStore({
+			mongoUrl: process.env.DB_URI,
+		}),
+		cookie: {
+			maxAge: 1000 * 60 * 60 * 24, // 1 day
+		},
 	})
 );
 app.use(flash());
@@ -38,6 +46,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(authRoutes);
 app.use(showRoutes);
+app.use(userRoutes);
 
 passport.use(
 	new LocalStrategy(async (username, password, done) => {

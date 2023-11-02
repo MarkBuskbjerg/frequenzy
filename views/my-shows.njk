@@ -5,7 +5,9 @@
 {% block content %}
 	{% if isAuthenticated %}
 		{% for show in shows %}
-			<h2>{{ show.title }}</h2>
+			<h2>
+				<a href="/show/{{ show._id }}">{{ show.title }}</a>
+			</h2>
 			<h3>Episodes</h3>
 			<ul>
 				{% for episode in show.episodes %}

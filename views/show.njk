@@ -1,0 +1,12 @@
+{% extends 'layout.njk' %}
+
+{% set title = show.title %}
+{% block content %}
+
+    <h3>Episodes:</h3>
+    <ul>
+        {% for episode in show.episodes %}
+            <li>{{ episode.title }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
