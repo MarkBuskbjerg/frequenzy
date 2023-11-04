@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Show = require('../models/show');
 const Episode = require('../models/episode');
-const { body, validationResult } = require('express-validator');
+const { body, validationResult, param } = require('express-validator');
 const upload = require('../multer.config');
 const categories = require('../utils/categories');
 
@@ -19,34 +19,40 @@ router.get('/create-show', ensureAuthenticated, (req, res) => {
 	res.render('create-show.njk', { isAuthenticated: true, categories: categories });
 });
 
-router.post('/create-show', ensureAuthenticated, [body('title').trim().escape()], [body('showDescription').trim().escape()], upload.single('showImage'), async (req, res) => {
-	const errors = validationResult(req);
-	if (!errors.isEmpty()) {
-		return res.status(404).json({ errors: errors.array() });
+router.post(
+	'/create-show',
+	ensureAuthenticated,
+	upload.single('showImage'),
+	[body('title').trim().escape(), body('showDescription').trim().escape(), body('category').trim().isIn(categories).withMessage('Invalid category'), body('explicitContent').toBoolean()],
+	async (req, res) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(404).json({ errors: errors.array() });
+		}
+
+		const { title, showDescription, category } = req.body;
+		let explicitContent = req.body.explicitContent === 'on' ? true : false; // Convert "on" to true and absence to false
+
+		// Check if a file was uploaded
+		if (!req.file) {
+			return res.status(400).send('No file uploaded or file type is invalid.');
+		}
+
+		const newShow = new Show({
+			userId: req.user.id,
+			title: title,
+			showDescription: showDescription,
+			imageUrl: req.file.path.replace('public', ''),
+			explicitContent: explicitContent,
+			category: category,
+		});
+		await newShow.save();
+		res.redirect('/my-shows');
 	}
-
-	const { title, showDescription, category } = req.body;
-	let explicitContent = req.body.explicitContent === 'on' ? true : false; // Convert "on" to true and absence to false
-
-	// Check if a file was uploaded
-	if (!req.file) {
-		return res.status(400).send('No file uploaded or file type is invalid.');
-	}
-
-	const newShow = new Show({
-		userId: req.user.id,
-		title: title,
-		showDescription: showDescription,
-		imageUrl: req.file.path.replace('public', ''),
-		explicitContent: explicitContent,
-		category: category,
-	});
-	await newShow.save();
-	res.redirect('/my-shows');
-});
+);
 
 // Route to create a new episode
-router.post('/create-episode/:showId', ensureAuthenticated, async (req, res) => {
+router.post('/create-episode/:showId', ensureAuthenticated, [body('title').trim().isLength({ min: 1 }).withMessage('Title is required'), param('showId').isMongoId().withMessage('Invalid show ID')], async (req, res) => {
 	const { title } = req.body;
 	const showId = req.params.showId;
 	const newEpisode = new Episode({
@@ -68,7 +74,7 @@ router.get('/my-shows', ensureAuthenticated, async (req, res) => {
 	res.render('my-shows.njk', { shows, isAuthenticated: true });
 });
 
-router.get('/show/:showId', ensureAuthenticated, async (req, res) => {
+router.get('/show/:showId', ensureAuthenticated, [param('showId').isMongoId().withMessage('Invalid show ID')], async (req, res) => {
 	const showId = req.params.showId;
 	const show = await Show.findById(showId).populate('episodes');
 
@@ -79,7 +85,7 @@ router.get('/show/:showId', ensureAuthenticated, async (req, res) => {
 	res.render('show.njk', { show, isAuthenticated: true });
 });
 
-router.post('/delete-show/:showId', ensureAuthenticated, async (req, res) => {
+router.post('/delete-show/:showId', ensureAuthenticated, [param('showId').isMongoId().withMessage('Invalid show ID')], async (req, res) => {
 	try {
 		const show = await Show.findById(req.params.showId);
 		// const show = await Show.findOne({ _id: req.params.showId });
