@@ -1,11 +1,25 @@
 const mongoose = require('mongoose');
+const categories = require('../utils/categories');
 
 const showSchema = new mongoose.Schema({
 	userId: String,
 	title: String,
+	showDescription: {
+		type: String,
+		default: '',
+	},
 	imageUrl: {
 		type: String,
 		default: '',
+	},
+	explicitContent: {
+		type: Boolean,
+		default: false,
+	},
+	category: {
+		type: String,
+		required: true,
+		enum: categories, // Validates that the category chosen is equal to a category defined in utils/categories.js
 	},
 	episodes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Episode' }],
 });

@@ -1,9 +1,9 @@
 {% extends 'layout.njk' %}
 
 {% set title = show.title %}
+
 {% block content %}
-    {# <form action="/delete-show/{{ show._id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this show?')"> #}
-    <form action="/delete-show/{{ show._id }}" method="POST">
+    <form action="/delete-show/{{ show._id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this show?')">
         <button type="submit">Delete Show</button>
     </form>
     <img 
@@ -11,7 +11,9 @@
         src="{{ show.imageUrl | replace("\\", "/") }}" 
         alt="Cover for the show {{ show.title }}"
     >
-
+    <p>{{ show.showDescription }}</p>
+    <p>Explicit content? <span class="font-bold">{{ show.explicitContent }}</span></p>
+    <p>Category: <span class="font-bold">{{ show.category }}</span></p>
     <h3>Episodes:</h3>
     <ul>
         {% for episode in show.episodes %}

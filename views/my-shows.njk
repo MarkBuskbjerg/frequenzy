@@ -12,7 +12,6 @@
 				<div class="grid grid-cols-12 py-4">
 					<div class="col-span-2">
 						<img 
-						
 						src="{{ show.imageUrl | replace("\\", "/") }}" 
 						alt="Cover for the show {{ show.title }}"
     				>
@@ -21,6 +20,9 @@
 						<h2 class="text-2xl font-black">
 							{{ show.title }}
 						</h2>
+						<p>{{ show.showDescription }}</p>
+						<p>Explicit content? <span class="font-bold">{{ show.explicitContent }}</span></p>
+						<p>Category: <span class="font-bold">{{ show.category }}</span></p>
 					</div>
 				</div>
 			</a>

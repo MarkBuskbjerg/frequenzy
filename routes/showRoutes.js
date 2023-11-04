@@ -4,6 +4,7 @@ const Show = require('../models/show');
 const Episode = require('../models/episode');
 const { body, validationResult } = require('express-validator');
 const upload = require('../multer.config');
+const categories = require('../utils/categories');
 
 // Middleware to ensure user is authenticated
 const ensureAuthenticated = (req, res, next) => {
@@ -15,16 +16,17 @@ const ensureAuthenticated = (req, res, next) => {
 
 // Routes to create a new show
 router.get('/create-show', ensureAuthenticated, (req, res) => {
-	res.render('create-show.njk', { isAuthenticated: true });
+	res.render('create-show.njk', { isAuthenticated: true, categories: categories });
 });
 
-router.post('/create-show', ensureAuthenticated, [body('title').trim().escape()], upload.single('showImage'), async (req, res) => {
+router.post('/create-show', ensureAuthenticated, [body('title').trim().escape()], [body('showDescription').trim().escape()], upload.single('showImage'), async (req, res) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.status(404).json({ errors: errors.array() });
 	}
 
-	const { title } = req.body;
+	const { title, showDescription, category } = req.body;
+	let explicitContent = req.body.explicitContent === 'on' ? true : false; // Convert "on" to true and absence to false
 
 	// Check if a file was uploaded
 	if (!req.file) {
@@ -34,7 +36,10 @@ router.post('/create-show', ensureAuthenticated, [body('title').trim().escape()]
 	const newShow = new Show({
 		userId: req.user.id,
 		title: title,
+		showDescription: showDescription,
 		imageUrl: req.file.path.replace('public', ''),
+		explicitContent: explicitContent,
+		category: category,
 	});
 	await newShow.save();
 	res.redirect('/my-shows');
