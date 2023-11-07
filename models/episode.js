@@ -1,10 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const episodeSchema = new mongoose.Schema({
-  showId: String,
-  title: String,
+	showId: String,
+	title: String,
+	audioPath: String,
 });
 
-const Episode = mongoose.model("Episode", episodeSchema);
+const Episode = mongoose.model('Episode', episodeSchema);
 
 module.exports = Episode;
