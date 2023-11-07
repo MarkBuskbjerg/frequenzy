@@ -63,11 +63,12 @@ router.get('/create-episode/:showId', ensureAuthenticated, async (req, res) => {
 
 router.post('/create-episode/:showId', uploadSingle('audio'), ensureAuthenticated, [param('showId').isMongoId().withMessage('Invalid show ID')], async (req, res) => {
 	console.log('logging req param: ', req);
-	const { title } = req.body;
+	const { title, description } = req.body;
 	const showId = req.params.showId;
 	const newEpisode = new Episode({
 		showId: showId,
 		title: title,
+		description: description,
 		audioPath: req.file.path.replace('public', ''),
 	});
 

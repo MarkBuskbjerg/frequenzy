@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const episodeSchema = new mongoose.Schema({
 	showId: String,
 	title: String,
+	description: {
+		type: String,
+		default: '',
+	},
 	audioPath: String,
 });
 
