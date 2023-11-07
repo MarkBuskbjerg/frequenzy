@@ -97,6 +97,23 @@ router.get('/show/:showId', ensureAuthenticated, [param('showId').isMongoId().wi
 	res.render('show.njk', { show, isAuthenticated: true });
 });
 
+// Route to display a single episode
+router.get('/episode/:episodeId', ensureAuthenticated, async (req, res) => {
+	try {
+		const episodeId = req.params.episodeId;
+		const episode = await Episode.findById(episodeId);
+
+		if (!episode) {
+			return res.status(404).send('Episode not found.');
+		}
+
+		res.render('episode.njk', { episode: episode });
+	} catch (error) {
+		console.error('Error fetching episode:', error);
+		res.status(500).send('Internal Server Error');
+	}
+});
+
 router.post('/delete-show/:showId', ensureAuthenticated, [param('showId').isMongoId().withMessage('Invalid show ID')], async (req, res) => {
 	try {
 		const show = await Show.findById(req.params.showId);

@@ -15,7 +15,9 @@
     <h3>Episodes:</h3>
     <ul>
         {% for episode in show.episodes %}
-            <li>{{ episode.title }}</li>
+            <li>
+                <a href="/episode/{{ episode._id }}" class="underline">{{ episode.title }} - {{ episode.audioPath }}</a>
+            </li>
         {% endfor %}
     </ul>
     <div class="flex gap-3">

@@ -1,0 +1,19 @@
+{# episode.njk #}
+
+{% extends "layout.njk" %}
+
+{% set title = episode.title %}
+
+{% block content %}
+    <div class="episode-container">
+        <h1>{{ episode.title }}</h1>
+        <audio controls>
+            <source src="{{ episode.audioPath }}" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+        <!-- Add other episode details here -->
+        <p>{{ episode.description }}</p>
+        <!-- Link to go back to the show or episode list -->
+        <a href="/show/{{ episode.showId }}">Back to Show</a>
+    </div>
+{% endblock %}
