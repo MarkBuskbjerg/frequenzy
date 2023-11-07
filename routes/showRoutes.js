@@ -141,4 +141,37 @@ router.post('/delete-show/:showId', ensureAuthenticated, [param('showId').isMong
 	}
 });
 
+// Route to handle episode deletion
+router.post('/delete-episode/:episodeId', ensureAuthenticated, async (req, res) => {
+	const { episodeId } = req.params;
+
+	try {
+		// Find the episode
+		const episode = await Episode.findById(episodeId).populate('showId');
+		if (!episode) {
+			return res.status(404).send('Episode not found.');
+		}
+
+		// Find the parent show to check for the correct user
+		const show = await Show.findById(episode.showId);
+		if (!show) {
+			return res.status(404).send('Show not found.');
+		}
+
+		// Check if the logged-in user is authorized to delete the episode
+		if (req.user.id !== show.userId) {
+			return res.status(403).send('Not authorized to delete this episode.');
+		}
+
+		// Delete the episode
+		await Episode.deleteOne({ _id: episodeId });
+
+		// Redirect to the show's page or a list of episodes
+		res.redirect('/show/' + show._id);
+	} catch (error) {
+		console.error('Error deleting episode:', error);
+		res.status(500).send('Internal Server Error');
+	}
+});
+
 module.exports = router;
