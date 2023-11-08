@@ -68,7 +68,6 @@ router.post(
 );
 
 router.post('/save-show/:showId', ensureAuthenticated, uploadSingle('image'), async (req, res) => {
-	console.log('req', req);
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.status(400).json({ errors: errors.array() });
@@ -148,7 +147,6 @@ router.get('/create-episode/:showId', ensureAuthenticated, async (req, res) => {
 });
 
 router.post('/create-episode/:showId', uploadSingle('audio'), ensureAuthenticated, [param('showId').isMongoId().withMessage('Invalid show ID')], async (req, res) => {
-	console.log('logging req param: ', req);
 	const { title, description } = req.body;
 	const showId = req.params.showId;
 	const newEpisode = new Episode({
@@ -215,8 +213,6 @@ router.get('/episode/:episodeId', ensureAuthenticated, async (req, res) => {
 router.post('/delete-show/:showId', ensureAuthenticated, [param('showId').isMongoId().withMessage('Invalid show ID')], async (req, res) => {
 	try {
 		const show = await Show.findById(req.params.showId);
-		// const show = await Show.findOne({ _id: req.params.showId });
-		console.log(show);
 
 		if (!show) {
 			return res.status(404).send('Show not found');

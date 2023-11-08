@@ -5,16 +5,26 @@
 {% block content %}
 
     <img 
-    class="w-12 h-12"
-    src="{{ show.imageUrl | replace("\\", "/") }}" 
-    alt="Cover for the show {{ show.title }}"
->
+        class="w-12 h-12"
+        src="{{ show.imageUrl | replace("\\", "/") }}" 
+        alt="Cover for the show {{ show.title }}"
+    >
     <div class="p-6 rounded-md bg-pink-200">
         <h2>Description</h2>
         <p>{{ show.showDescription }}</p>
     </div>
-    <p>Explicit content? <span class="font-bold">{{ show.explicitContent }}</span></p>
-    <p>Category: <span class="font-bold">{{ show.category }}</span></p>
+    <p>Explicit content? {{ show.explicitContent }}</p>
+    <p>Category: {{ show.category }}</p>
+    <p>showType: {{ show.showType }}</p>
+    <p>Author: {{ show.author }}</p>
+    <p>Copyright: {{ show.copyright }}</p>
+    <p>Keywords: {{ show.keyword }}</p>
+    <p>Website: {{ show.website }}</p>
+    <p>Spoken language: {{ show.language}}</p>
+    <p>Publishing timezone: {{ show.publishTimezone }}</p>
+    <p>showOwner: {{ show.showOwner }}</p>
+    <p>showOwnerEmail: {{ show.showOwnerEmail }}</p>
+
     <h3>Episodes:</h3>
     <ul>
         {% for episode in show.episodes %}
