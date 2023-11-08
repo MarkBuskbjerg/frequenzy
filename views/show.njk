@@ -5,11 +5,14 @@
 {% block content %}
 
     <img 
-        class="w-12 h-12"
-        src="{{ show.imageUrl | replace("\\", "/") }}" 
-        alt="Cover for the show {{ show.title }}"
-    >
-    <p>{{ show.showDescription }}</p>
+    class="w-12 h-12"
+    src="{{ show.imageUrl | replace("\\", "/") }}" 
+    alt="Cover for the show {{ show.title }}"
+>
+    <div class="p-6 rounded-md bg-pink-200">
+        <h2>Description</h2>
+        <p>{{ show.showDescription }}</p>
+    </div>
     <p>Explicit content? <span class="font-bold">{{ show.explicitContent }}</span></p>
     <p>Category: <span class="font-bold">{{ show.category }}</span></p>
     <h3>Episodes:</h3>
@@ -24,6 +27,7 @@
         <form action="/delete-show/{{ show._id }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this show?')">
             <button type="submit" class="bg-red-700 text-red-50 font-bold py-1 px-4 rounded-md">Delete Show</button>
         </form>
+        <a href="/show/settings/{{ show._id }}" class="">Settings</a>
         <a href="/create-episode/{{ show._id }}" class="bg-green-700 text-green-50 font-bold py-1 px-4 rounded-md">Create episode</a>
     </div>
 {% endblock %}
