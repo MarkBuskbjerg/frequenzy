@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    {% include "head.njk" %}
+    <body>
+        {% include "header.njk" %}
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-12">
+                <div class="col-span-2">
+                    <nav>
+                        <ul>
+                            <li>Overview</li>
+                            <li>Episodes</li>
+                            <li>Statistics</li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-span-10">
+                    {% if title %}
+                        <h1 class="text-center text-gray-900 text-4xl font-black mb-6">{{ title }}</h1>
+                    {% endif %}
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </body>
+    </html>
