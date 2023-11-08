@@ -61,11 +61,11 @@
 							<p class="mt-1 text-sm leading-6 text-gray-600">[[ Insert a help text here ]]</p>
 							<div class="mt-6 space-y-6">
 								<div class="flex items-center gap-x-3">
-									<input id="episode" name="showType" type="radio" class="h-4 w-4 border-gray-300 text-pink-600 focus:ring-pink-600">
+									<input id="episode" name="showType" value="Episode" type="radio" class="h-4 w-4 border-gray-300 text-pink-600 focus:ring-pink-600">
 									<label for="episode" class="block text-sm font-medium leading-6 text-gray-900">Episode</label>
 								</div>
 								<div class="flex items-center gap-x-3">
-									<input id="serial" name="showType" type="radio" class="h-4 w-4 border-gray-300 text-pink-600 focus:ring-pink-600">
+									<input id="serial" name="showType" value="Serial" type="radio" class="h-4 w-4 border-gray-300 text-pink-600 focus:ring-pink-600">
 									<label for="serial" class="block text-sm font-medium leading-6 text-gray-900">Serial</label>
 								</div>
 							</div>
@@ -84,22 +84,18 @@
 						</div>
 					</div>
 					<div class="mt-2">
-						<!-- Not yet saved to database -->
 						<label for="author" class="block text-sm font-medium leading-6 text-gray-900">Author</label>
 						<input type="text" id="author" name="author" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pink-600 sm:text-sm sm:leading-6">
 					</div>
 					<div class="mt-2">
-						<!-- Not yet saved to database -->
 						<label for="copyright" class="block text-sm font-medium leading-6 text-gray-900">Copyright</label>
 						<input type="text" id="copyright" placeholder="e.g. Podcasting.inc 2023" name="copyright" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pink-600 sm:text-sm sm:leading-6">
 					</div>
 					<div class="mt-2">
-						<!-- Not yet saved to database -->
 						<label for="keywords" class="block text-sm font-medium leading-6 text-gray-900">Keywords</label>
 						<input type="text" id="keyword" placeholder="mental health, fitness, mindfulness" name="keywords" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pink-600 sm:text-sm sm:leading-6">
 					</div>
 					<div class="mt-2">
-						<!-- Not yet saved to database -->
 						<label for="website" class="block text-sm font-medium leading-6 text-gray-900">Website</label>
 						<input type="text" id="website" placeholder="https://yoursite.com" name="website" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pink-600 sm:text-sm sm:leading-6">
 					</div>
@@ -108,7 +104,7 @@
 						<div class="mt-2">
 							<select id="language" name="language" autocomplete="language-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-pink-600 sm:max-w-xs sm:text-sm sm:leading-6">
 								<option value="">Select a language</option>
-								<!-- Loop through the categories array to create option elements -->
+								<!-- Loop through the languages array to create option elements -->
 								{% for language in languages %}
 									<option value="{{ language }}">{{ language }}</option>
 								{% endfor %}

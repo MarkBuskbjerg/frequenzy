@@ -37,7 +37,7 @@ router.post(
 			return res.status(404).json({ errors: errors.array() });
 		}
 
-		const { title, showDescription, category } = req.body;
+		const { title, showDescription, category, showType, author, copyright, keywords, website, language, publishTimezone, showOwner, showOwnerEmail } = req.body;
 		let explicitContent = req.body.explicitContent === 'on' ? true : false; // Convert "on" to true and absence to false
 
 		// Check if a file was uploaded
@@ -52,6 +52,15 @@ router.post(
 			imageUrl: req.file.path.replace('public', ''),
 			explicitContent: explicitContent,
 			category: category,
+			showType: showType,
+			author: author,
+			copyright: copyright,
+			keywords: keywords,
+			website: website,
+			language: language,
+			publishTimezone: publishTimezone,
+			showOwner: showOwner,
+			showOwnerEmail: showOwnerEmail,
 		});
 		await newShow.save();
 		res.redirect('/my-shows');
