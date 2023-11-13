@@ -3,7 +3,7 @@
 {% set title = show.title %}
 
 {% block content %}
-
+    {{ show }}
     <img 
         class="w-12 h-12"
         src="{{ show.imageUrl | replace("\\", "/") }}" 
@@ -24,7 +24,9 @@
     <p>Publishing timezone: {{ show.publishTimezone }}</p>
     <p>showOwner: {{ show.showOwner }}</p>
     <p>showOwnerEmail: {{ show.showOwnerEmail }}</p>
-
+    <p>
+        <a href="/public/{{ show._id }}">View RSS Feed</a>
+    </p>
     <h3>Episodes:</h3>
     <ul>
         {% for episode in show.episodes %}
