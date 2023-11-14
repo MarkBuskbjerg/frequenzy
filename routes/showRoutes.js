@@ -179,10 +179,10 @@ router.get('/show/:showId', ensureAuthenticated, [param('showId').isMongoId().wi
 		return res.status(404).send('Show not found or unauthorized');
 	}
 
-	res.render('show.njk', { show, isAuthenticated: true });
+	res.render('show.njk', { show, showId: showId, isAuthenticated: true });
 });
 
-router.get('/show/settings/:showId', ensureAuthenticated, async (req, res) => {
+router.get('/show/:showId/settings', ensureAuthenticated, async (req, res) => {
 	const showId = req.params.showId;
 	const show = await Show.findById(showId);
 
@@ -193,8 +193,28 @@ router.get('/show/settings/:showId', ensureAuthenticated, async (req, res) => {
 	res.render('show-settings.njk', { show, isAuthenticated: true, showId, categories: categories });
 });
 
+// Route to show a list of all episodes
+router.get('/show/:showId/episodes/', ensureAuthenticated, async (req, res) => {
+	// Somehow this oes not pass anything that shows on the template list ... though the episodes clearly exist in log .. .sctracthes the head
+
+	try {
+		const showId = req.params.showId;
+		const episodes = await Episode.find({ show: showId });
+		const show = await Show.findById(showId).populate('episodes');
+
+		if (!show) {
+			return req.status(404).send('No episodes found for this show ... yet 😎');
+		}
+
+		res.render('episodesList.njk', { episodes: episodes, show: show, showId: showId, isAuthenticated: true });
+	} catch (error) {
+		console.error('Error fetching episodes: ', error);
+		res.status(500).send('Internal server error');
+	}
+});
+
 // Route to display a single episode
-router.get('/episode/:episodeId', ensureAuthenticated, async (req, res) => {
+router.get('/show/:showId/episodes/:episodeId', ensureAuthenticated, async (req, res) => {
 	try {
 		const episodeId = req.params.episodeId;
 		const episode = await Episode.findById(episodeId);
@@ -203,7 +223,7 @@ router.get('/episode/:episodeId', ensureAuthenticated, async (req, res) => {
 			return res.status(404).send('Episode not found.');
 		}
 
-		res.render('episode.njk', { episode: episode });
+		res.render('episode.njk', { episode: episode, showId: showId });
 	} catch (error) {
 		console.error('Error fetching episode:', error);
 		res.status(500).send('Internal Server Error');

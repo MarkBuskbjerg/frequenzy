@@ -8,10 +8,17 @@
             <div class="grid grid-cols-12">
                 <div class="col-span-2">
                     <nav>
-                        <ul>
-                            <li>Overview</li>
-                            <li>Episodes</li>
+                        <ul x-data="{ currentUrl: window.location.pathname }">
+                            <li>
+                                <a :class="{ 'underline': currentUrl === '/show/{{ showId }}' }" href="/show/{{ showId }}">Overview</a>
+                            </li>
+                            <li>
+                                <a :class="{ 'underline': currentUrl === '/show/{{ showId }}/episodes' }" href="/show/{{ showId }}/episodes">Episodes</a>
+                            </li>
                             <li>Statistics</li>
+                            <li>
+                                <a :class="{ 'underline': currentUrl === '/show/{{ showId }}/settings'}" href="/show/{{ showId }}/settings">Settings</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>

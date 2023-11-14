@@ -3,6 +3,44 @@
 {% set title = show.title %}
 
 {% block content %}
+    <div class="">
+        <div class="mx-auto max-w-5xl">
+            <div class="flex justify-between my-4">
+                <div>
+                    <a href="/create-episode/{{ show._id }}" class="bg-green-700 text-green-50 font-bold py-1 px-4 rounded-md">Create episode</a>
+                </div>
+                <div>
+                    <a href="#" class="bg-orange-700 text-orange-50 font-bold py-1 px-4 rounded-md">RSS feed</a>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-4">
+                <div class="bg-gray-900 rounded-l-md px-4 py-6 sm:px-6 lg:px-8">
+                    <p class="text-sm font-medium leading-6 text-gray-400">Number of episodes</p>
+                    <p class="mt-2 flex items-baseline gap-x-2">
+                        <span class="text-4xl font-semibold tracking-tight text-pink-400">{{ show.episodes | length }}</span>
+                    </p>
+                </div>
+                <div class="bg-gray-900 px-4 py-6 sm:px-6 lg:px-8">
+                    <p class="text-sm font-medium leading-6 text-gray-400">Scheduled episodes</p>
+                    <p class="mt-2 flex items-baseline gap-x-2">
+                        <span class="text-4xl font-semibold tracking-tight text-pink-400">0</span>
+                    </p>
+                </div>
+                <div class="bg-gray-900 px-4 py-6 sm:px-6 lg:px-8">
+                    <p class="text-sm font-medium leading-6 text-gray-400">Number of downloads</p>
+                    <p class="mt-2 flex items-baseline gap-x-2">
+                        <span class="text-4xl font-semibold tracking-tight text-pink-400">2.435</span>
+                    </p>
+                </div>
+                <div class="bg-gray-900 rounded-r-md px-4 py-6 sm:px-6 lg:px-8">
+                    <p class="text-sm font-medium leading-6 text-gray-400">Ad revenue</p>
+                    <p class="mt-2 flex items-baseline gap-x-2">
+                        <span class="text-4xl font-semibold tracking-tight text-pink-400">98.5 $</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <img 
         class="w-12 h-12"
@@ -29,7 +67,7 @@
     <ul>
         {% for episode in show.episodes %}
             <li>
-                <a href="/episode/{{ episode._id }}" class="underline">{{ episode.title }} - {{ episode.audioPath }}</a>
+                <a href="/show/{{ show._id }}/episodes/{{ episode._id }}" class="underline">{{ episode.title }} - {{ episode.audioPath }}</a>
             </li>
         {% endfor %}
     </ul>
@@ -38,6 +76,6 @@
             <button type="submit" class="bg-red-700 text-red-50 font-bold py-1 px-4 rounded-md">Delete Show</button>
         </form>
         <a href="/show/settings/{{ show._id }}" class="">Settings</a>
-        <a href="/create-episode/{{ show._id }}" class="bg-green-700 text-green-50 font-bold py-1 px-4 rounded-md">Create episode</a>
+
     </div>
 {% endblock %}

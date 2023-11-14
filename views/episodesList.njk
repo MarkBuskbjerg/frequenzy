@@ -1,0 +1,13 @@
+{% extends 'settings-layout.njk' %}
+
+{% set title = "All episodes" %}
+
+{% block content %}
+    <ul class="mx-auto max-w-7xl">
+        {% for episode in show.episodes %}
+            <li>
+                <a href="/show/{{ show._id }}/episodes/{{ episode._id }}" class="underline">{{ episode.title }} - {{ episode.audioPath }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
