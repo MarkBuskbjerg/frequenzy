@@ -13,6 +13,20 @@
                                 <a :class="{ 'underline': currentUrl === '/show/{{ showId }}' }" href="/show/{{ showId }}">Overview</a>
                             </li>
                             <li>
+                                <a :class="{ 'underline': currentUrl === '/show/{{ showId }}/distribution' }" href="/show/{{ showId }}/distribution">Distribution</a>
+                                <ul>
+                                    <li>
+                                        <a class="ml-2" :class="{ 'underline': currentUrl === '/show/{{ showId }}/distribution/website' }" href="/show/{{ showId }}/distribution/website">Website</a>
+                                    </li>
+                                    <li>
+                                        <a class="ml-2" :class="{ 'underline': currentUrl === '/show/{{ showId }}/distribution/apps' }" href="/show/{{ showId }}/distribution/apps">Podcast apps</a>
+                                    </li>
+                                    <li>
+                                        <a class="ml-2" :class="{ 'underline': currentUrl === '/show/{{ showId }}/distribution/embed-player' }" href="/show/{{ showId }}/distribution/embed-player">Embeddable player</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
                                 <a :class="{ 'underline': currentUrl === '/show/{{ showId }}/episodes' }" href="/show/{{ showId }}/episodes">Episodes</a>
                             </li>
                             <li>Statistics</li>
@@ -24,7 +38,12 @@
                 </div>
                 <div class="col-span-10">
                     {% if title %}
-                        <h1 class="text-center text-gray-900 text-4xl font-black mb-6">{{ title }}</h1>
+                        <div class="mb-6">
+                            <h1 class="text-gray-900 text-4xl font-black mb-2">{{ title }}</h1>
+                            {% if subtitle %}
+                                <p class="text-xl font-bold">{{ subtitle }}</p>
+                            {% endif %}
+                        </div>
                     {% endif %}
                     {% block content %}{% endblock %}
                 </div>

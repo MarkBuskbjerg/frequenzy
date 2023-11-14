@@ -240,6 +240,87 @@ router.get("/show/:showId/settings", ensureAuthenticated, async (req, res) => {
   });
 });
 
+// Route to the distribution settings for the podcast show
+router.get(
+  "/show/:showId/distribution",
+  ensureAuthenticated,
+  async (req, res) => {
+    try {
+      const showId = req.params.showId;
+      const show = await Show.findById(showId).populate("episodes");
+
+      if (!show) {
+        return req
+          .status(404)
+          .send("No episodes found for this show ... yet 😎");
+      }
+
+      res.render("show-distribution.njk", {
+        show: show,
+        showId: showId,
+        isAuthenticated: true,
+      });
+    } catch (error) {
+      console.error("Error fetching distribution: ", error);
+      res.status(500).send("Internal server error");
+    }
+  }
+);
+
+// Route to the distribution settings for the podcast show
+router.get(
+  "/show/:showId/distribution/website",
+  ensureAuthenticated,
+  async (req, res) => {
+    try {
+      const showId = req.params.showId;
+      const show = await Show.findById(showId).populate("episodes");
+
+      if (!show) {
+        return req
+          .status(404)
+          .send("No episodes found for this show ... yet 😎");
+      }
+
+      res.render("show-distribution-website.njk", {
+        show: show,
+        showId: showId,
+        isAuthenticated: true,
+      });
+    } catch (error) {
+      console.error("Error fetching distribution: ", error);
+      res.status(500).send("Internal server error");
+    }
+  }
+);
+
+// Route to the distribution settings for the podcast show
+router.get(
+  "/show/:showId/distribution/embed-player",
+  ensureAuthenticated,
+  async (req, res) => {
+    try {
+      const showId = req.params.showId;
+      const show = await Show.findById(showId).populate("episodes");
+
+      if (!show) {
+        return req
+          .status(404)
+          .send("No episodes found for this show ... yet 😎");
+      }
+
+      res.render("show-distribution-embedplayer.njk", {
+        show: show,
+        showId: showId,
+        isAuthenticated: true,
+      });
+    } catch (error) {
+      console.error("Error fetching embeddable player: ", error);
+      res.status(500).send("Internal server error");
+    }
+  }
+);
+
 // Route to show a list of all episodes
 router.get("/show/:showId/episodes/", ensureAuthenticated, async (req, res) => {
   // Somehow this oes not pass anything that shows on the template list ... though the episodes clearly exist in log .. .sctracthes the head
