@@ -217,14 +217,15 @@ router.get(
       return res.status(404).send("Show not found or unauthorized");
     }
 
-    res.render("show.njk", { show, isAuthenticated: true });
+    res.render("show.njk", { show, showId, isAuthenticated: true });
   }
 );
 
-router.get("/show/settings/:showId", ensureAuthenticated, async (req, res) => {
+router.get("/show/:showId/settings", ensureAuthenticated, async (req, res) => {
   const showId = req.params.showId;
   const show = await Show.findById(showId);
 
+  console.log("trying to fetch show settings ... ");
   if (!show || show.userId.toString() !== req.user.id.toString()) {
     return res.status(404).send("Show not found or unauthorized");
   }
