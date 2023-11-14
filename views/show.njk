@@ -62,7 +62,9 @@
     <p>Publishing timezone: {{ show.publishTimezone }}</p>
     <p>showOwner: {{ show.showOwner }}</p>
     <p>showOwnerEmail: {{ show.showOwnerEmail }}</p>
-
+    <p>
+        <a href="/public/{{ show._id }}">View RSS Feed</a>
+    </p>
     <h3>Episodes:</h3>
     <ul>
         {% for episode in show.episodes %}

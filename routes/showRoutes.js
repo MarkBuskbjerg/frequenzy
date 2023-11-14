@@ -179,10 +179,10 @@ router.get('/show/:showId', ensureAuthenticated, [param('showId').isMongoId().wi
 		return res.status(404).send('Show not found or unauthorized');
 	}
 
-	res.render('show.njk', { show, showId: showId, isAuthenticated: true });
+	res.render('show.njk', { show, isAuthenticated: true });
 });
 
-router.get('/show/:showId/settings', ensureAuthenticated, async (req, res) => {
+router.get('/show/settings/:showId', ensureAuthenticated, async (req, res) => {
 	const showId = req.params.showId;
 	const show = await Show.findById(showId);
 
@@ -190,7 +190,12 @@ router.get('/show/:showId/settings', ensureAuthenticated, async (req, res) => {
 		return res.status(404).send('Show not found or unauthorized');
 	}
 
-	res.render('show-settings.njk', { show, isAuthenticated: true, showId, categories: categories });
+	res.render('show-settings.njk', {
+		show,
+		isAuthenticated: true,
+		showId,
+		categories: categories,
+	});
 });
 
 // Route to show a list of all episodes
@@ -286,6 +291,13 @@ router.post('/delete-episode/:episodeId', ensureAuthenticated, async (req, res) 
 		console.error('Error deleting episode:', error);
 		res.status(500).send('Internal Server Error');
 	}
+});
+
+router.get('/public/:showId', async (req, res) => {
+	const { showId } = req.params;
+	const show = await Show.findById(showId).populate('episodes');
+
+	res.render('showPublic.njk', show);
 });
 
 module.exports = router;
