@@ -35,9 +35,9 @@
                 <option value="">Select {{ label }}</option>
                 {% for option in options %}
                     {% if option is string %}
-                        <option value="{{ option }}" {% if option == selectedValue %} selected {% endif %}>{{ option }}</option>
+                        <option value="{{ option }}" {%- if option == selectedValue -%} selected{%- endif -%}>{{ option }}</option>
                     {% else %}
-                        <option value="{{ option.value }}" {% if option.value == selectedValue %} selected {% endif %}>{{ option.name }}</option>
+                        <option value="{{ option.value }}" {%- if option.value == selectedValue -%}selected{%- endif -%}>{{ option.name }}</option>
                     {% endif %}
                 {% endfor %}
             </select>
