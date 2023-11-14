@@ -46,7 +46,7 @@ const showSchema = new mongoose.Schema({
   publishTimezone: {
     type: String,
     required: true,
-    enum: timezones.map((timezones) => timezones.name), // Validates that the timezone chosen is equal to a timezone defined in utils/timezones.js
+    enum: timezones.map((timezones) => timezones.value), // Validates that the timezone chosen is equal to a timezone defined in utils/timezones.js
   },
   showOwner: { type: String, default: "" },
   showOwnerEmail: { type: String, default: "" },
