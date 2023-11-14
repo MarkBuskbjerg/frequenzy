@@ -179,13 +179,14 @@ router.post(
   ensureAuthenticated,
   [param("showId").isMongoId().withMessage("Invalid show ID")],
   async (req, res) => {
-    const { title, description } = req.body;
+    console.log(req.body);
+    const { title, description, publishDate } = req.body;
     const showId = req.params.showId;
     const newEpisode = new Episode({
       showId: showId,
       title: title,
       description: description,
-      publishDate: new Date(publishDate),
+      publishDate: publishDate ? new Date(publishDate) : undefined,
       audioPath: req.file.path.replace("public", ""),
     });
 
