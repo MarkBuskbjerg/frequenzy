@@ -18,13 +18,30 @@
                         <input type="checkbox" id="explicitContent" {% if show.explicitContent %}checked{% endif %} name="explicitContent" class="">
                     </div>
                 </div>
+
+                <div>
+                    <fieldset>
+                        <legend class="text-sm font-semibold leading-6 text-gray-900">What type of show is it?</legend>
+                        <p class="mt-1 text-sm leading-6 text-gray-600">[[ Insert a help text here ]]</p>
+                        <div class="mt-6 space-y-6">
+                            <div class="flex items-center gap-x-3">
+                                <input id="episode" name="showType" value="episodic" type="radio" class="h-4 w-4 border-gray-300 text-pink-600 focus:ring-pink-600">
+                                <label for="episode" class="block text-sm font-medium leading-6 text-gray-900">Episode</label>
+                            </div>
+                            <div class="flex items-center gap-x-3">
+                                <input id="serial" name="showType" value="serial" type="radio" class="h-4 w-4 border-gray-300 text-pink-600 focus:ring-pink-600">
+                                <label for="serial" class="block text-sm font-medium leading-6 text-gray-900">Serial</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
                 {{ formMacros.selectInput('Category', 'category', 'category', true, categories, show.category )}}
                 {{ formMacros.textInput('Author', 'author', 'author', '', true, show.author) }}
                 {{ formMacros.textInput('Copyright', 'copyright', 'copyright', 'e.g. Podcasting.inc 2023', true, show.copyright) }}
                 {{ formMacros.textInput('Keywords', 'keywords', 'keywords', 'e.g. business, marketing, finance', true, show.keywords) }}
                 {{ formMacros.textInput('Website', 'website', 'website', 'https://yoursite.com', true, show.website) }}
 
-                {{ formMacros.selectInput('Spoken language', 'language', 'language', true, languages, show.language)}}
+                {{ formMacros.selectInput('Spoken language', 'language', 'language', true, languages, show.language) }}
                 {{ formMacros.selectInput('Publishing timezone', 'publishTimezone', 'publishTimezone', true, timezones, show.timezone) }}
 
                 {{ formMacros.textInput('Show owner', 'showOwner', 'showOwner', '', true, show.showOwner) }}

@@ -226,7 +226,6 @@ router.get("/show/:showId/settings", ensureAuthenticated, async (req, res) => {
   const showId = req.params.showId;
   const show = await Show.findById(showId);
 
-  console.log("trying to fetch show settings ... ");
   if (!show || show.userId.toString() !== req.user.id.toString()) {
     return res.status(404).send("Show not found or unauthorized");
   }
@@ -236,6 +235,8 @@ router.get("/show/:showId/settings", ensureAuthenticated, async (req, res) => {
     isAuthenticated: true,
     showId,
     categories: categories,
+    languages: languages,
+    timezones: timezones,
   });
 });
 
@@ -352,11 +353,12 @@ router.post(
   }
 );
 
-router.get("/public/:showId", async (req, res) => {
+router.get("/rss/:showId", async (req, res) => {
   const { showId } = req.params;
   const show = await Show.findById(showId).populate("episodes");
-
-  res.render("showPublic.njk", show);
+  console.log(show);
+  res.type("application/rss+xml");
+  res.render("publicRSS.njk", { show, showId });
 });
 
 module.exports = router;
