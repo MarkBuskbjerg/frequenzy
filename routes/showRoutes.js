@@ -18,7 +18,7 @@ const ensureAuthenticated = (req, res, next) => {
 
 // Routes to create a new show
 router.get("/create-show", ensureAuthenticated, (req, res) => {
-  res.render("create-show.njk", {
+  res.render("show/create.njk", {
     isAuthenticated: true,
     categories: categories,
     timezones: timezones,
@@ -203,7 +203,7 @@ router.post(
 // Route to view shows and episodes
 router.get("/my-shows", ensureAuthenticated, async (req, res) => {
   const shows = await Show.find({ userId: req.user.id }).populate("episodes");
-  res.render("my-shows.njk", { shows, isAuthenticated: true });
+  res.render("show/my-shows.njk", { shows, isAuthenticated: true });
 });
 
 router.get(
@@ -218,7 +218,7 @@ router.get(
       return res.status(404).send("Show not found or unauthorized");
     }
 
-    res.render("show.njk", { show, showId, isAuthenticated: true });
+    res.render("show/overview.njk", { show, showId, isAuthenticated: true });
   }
 );
 
@@ -230,7 +230,7 @@ router.get("/show/:showId/settings", ensureAuthenticated, async (req, res) => {
     return res.status(404).send("Show not found or unauthorized");
   }
 
-  res.render("show-settings.njk", {
+  res.render("show/settings.njk", {
     show,
     isAuthenticated: true,
     showId,
@@ -255,7 +255,7 @@ router.get(
           .send("No episodes found for this show ... yet 😎");
       }
 
-      res.render("show-distribution.njk", {
+      res.render("show/distribution.njk", {
         show: show,
         showId: showId,
         isAuthenticated: true,
@@ -282,7 +282,7 @@ router.get(
           .send("No episodes found for this show ... yet 😎");
       }
 
-      res.render("show-distribution-website.njk", {
+      res.render("show/distribution-website.njk", {
         show: show,
         showId: showId,
         isAuthenticated: true,
@@ -309,7 +309,34 @@ router.get(
           .send("No episodes found for this show ... yet 😎");
       }
 
-      res.render("show-distribution-embedplayer.njk", {
+      res.render("show/distribution-embedplayer.njk", {
+        show: show,
+        showId: showId,
+        isAuthenticated: true,
+      });
+    } catch (error) {
+      console.error("Error fetching embeddable player: ", error);
+      res.status(500).send("Internal server error");
+    }
+  }
+);
+
+// Route to the distribution settings for the podcast show
+router.get(
+  "/show/:showId/distribution/podcast-apps",
+  ensureAuthenticated,
+  async (req, res) => {
+    try {
+      const showId = req.params.showId;
+      const show = await Show.findById(showId).populate("episodes");
+
+      if (!show) {
+        return req
+          .status(404)
+          .send("No episodes found for this show ... yet 😎");
+      }
+
+      res.render("show/distribution-apps.njk", {
         show: show,
         showId: showId,
         isAuthenticated: true,
