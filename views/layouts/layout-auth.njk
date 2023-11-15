@@ -1,0 +1,17 @@
+{% extends "./layout.njk" %}
+
+{% block content %}
+    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div class="mt-10 sm:mx-auto w-full">
+            <h1 class="text-4xl font-black text-center pb-8 text-gray-900">{{ title }}</h1>
+            {% if errorMessage %}
+                <div class="alert alert-danger">
+                    {{ errorMessage }}
+                </div>
+            {% endif %}
+            <div class="max-w-md mx-auto">
+                {% block form %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

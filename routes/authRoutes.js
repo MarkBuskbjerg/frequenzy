@@ -7,7 +7,7 @@ const User = require("../models/user");
 // Routes for logging in users
 router.get("/login", (req, res) => {
   const errorMessages = req.flash("error");
-  res.render("login.njk", {
+  res.render("auth/login.njk", {
     isAuthenticated: req.isAuthenticated(),
   });
 });
@@ -24,7 +24,7 @@ router.post(
 
 // Routes for signing up users
 router.get("/signup", (req, res) => {
-  res.render("signup.njk", { isAuthenticated: req.isAuthenticated() });
+  res.render("auth/signup.njk", { isAuthenticated: req.isAuthenticated() });
 });
 
 router.post("/signup", async (req, res) => {
@@ -67,6 +67,13 @@ router.get("/logout", (req, res) => {
       return next(error);
     }
     res.redirect("/");
+  });
+});
+
+// Routes for signing up users
+router.get("/reset-password", (req, res) => {
+  res.render("auth/reset-password.njk", {
+    isAuthenticated: req.isAuthenticated(),
   });
 });
 
