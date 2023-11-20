@@ -39,9 +39,9 @@
                 <div class="col-span-10">
                     {% if title %}
                         <div class="mb-6">
-                            <h1 class="text-gray-900 text-4xl font-black mb-2">{{ title }}</h1>
+                            <h1 class="text-gray-900 text-4xl font-black mb-2">{{ title | safe }}</h1>
                             {% if subtitle %}
-                                <p class="text-xl font-bold">{{ subtitle }}</p>
+                                <p class="text-xl font-bold">{{ subtitle | safe }}</p>
                             {% endif %}
                         </div>
                     {% endif %}

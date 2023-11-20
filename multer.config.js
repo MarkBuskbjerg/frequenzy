@@ -9,14 +9,15 @@ if (!fs.existsSync(uploadPath)) {
 }
 
 // Define storage configuration
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadPath);
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)); // Use path.extname to get the extension
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, uploadPath);
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + path.extname(file.originalname)); // Use path.extname to get the extension
+//   },
+// });
+const storage = multer.memoryStorage();
 
 // Define allowed file types
 const allowedImageTypes = [

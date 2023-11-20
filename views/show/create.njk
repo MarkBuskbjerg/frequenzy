@@ -1,6 +1,7 @@
 {% extends "layouts/layout.njk" %}
 
 {% import "macros/forminputs.njk" as formMacros %}
+{% import "macros/button.njk" as button %}
 
 {% set title = "Create a new show" %}
 
@@ -60,7 +61,7 @@
 					{{ formMacros.emailInput('Show owner Email', 'showOwnerEmail', 'showOwnerEmail', '', true, '') }}
 
 					<br/>
-					<button type="submit" class="flex w-full justify-center rounded-md bg-pink-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-pink-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-pink-600">Create show</button>
+					{{ button.primary('button', 'submit', 'Create show', 'default', 'full', null, null) }}
 				</div>
 			</form>
 		</div>

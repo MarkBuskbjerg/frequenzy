@@ -1,0 +1,128 @@
+{% import '../macros/icons.njk' as iconMacro %}
+
+{% macro baseButton(type, href, text, size, width, baseClasses, typeClasses, iconName, iconPosition) %}
+    {% set containerClasses = 'flex gap-2 items-center' %}
+    {% if size == 'small' %}
+        {% set sizeClasses = ' px-2 py-1 text-xs ' %}
+    {% elif size == 'large' %}
+        {% set sizeClasses = ' px-5 py-3 text-lg ' %}
+    {% else %}
+        {% set sizeClasses = ' px-3.5 py-2.5 text-sm ' %}
+    {% endif %}
+
+    {% if width == 'full' %}
+        {% set widthClasses = 'w-full justify-center' %}
+    {% else %}
+        {% set widthClasses = '' %}
+    {% endif %}
+
+    {% set iconHtml %}
+    {% if iconName %}
+        {{ iconMacro.getIcon(iconName) }}
+    {% endif %}
+    {% endset %}
+
+    {% if type == 'link' %}
+        <a href="{{ href }}" class="{{ widthClasses | safe }} {{ containerClasses | safe }} {{ baseClasses }} {{ sizeClasses }} {{ typeClasses }}">
+            {% if iconPosition == 'left' and iconName %}{{ iconHtml | safe }}
+            {% endif %}
+            {{ text }}
+            {% if iconPosition == 'right' and iconName %}{{ iconHtml | safe }}
+            {% endif %}
+        </a>
+    {% else %}
+        <button class="{{ widthClasses | safe }} {{ containerClasses }} {{ baseClasses }} {{ sizeClasses }} {{ typeClasses }}" type="{{ href }}">
+            {% if iconPosition == 'left' and iconName %}{{ iconHtml | safe }}
+            {% endif %}
+            {{ text }}
+            {% if iconPosition == 'right' and iconName %}{{ iconHtml | safe }}
+            {% endif %}
+        </button>
+    {% endif %}
+{% endmacro %}
+
+{% macro primary(type, href, text, size = 'default', width = '', iconName = null, iconPosition = 'left') %}
+    {% set baseClasses = 'rounded-md font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2' %}
+    {% set typeClasses = 'bg-pink-600 text-white hover:bg-pink-500 focus-visible:outline-pink-600' %}
+    {{ baseButton(type, href, text, size, width, baseClasses, typeClasses, iconName, iconPosition) }}
+{% endmacro %}
+
+{% macro secondary(type, href, text, size = 'default', width = '', iconName = null, iconPosition = 'left') %}
+    {% set baseClasses = 'rounded-md font-semibold leading-6 text-gray-900' %}
+    {% set typeClasses = '' %}
+    <!-- Add specific classes for secondary button here -->
+    {{ baseButton(type, href, text, size, width, baseClasses, typeClasses, iconName, iconPosition) }}
+{% endmacro %}
+
+{# {% macro primary(type, href, text, size = 'default', iconName = null, iconPosition = 'left') %}
+    {% set baseClasses = 'rounded-md font-semibold shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2' %}
+    {% set typeClasses = 'bg-pink-600 text-white hover:bg-pink-500 focus-visible:outline-pink-600' %}
+
+    {% if size == 'small' %}
+        {% set sizeClasses = ' px-2 py-1 text-xs ' %}
+    {% elif size == 'large' %}
+        {% set sizeClasses = ' px-5 py-3 text-lg ' %}
+    {% else %}
+        {% set sizeClasses = ' px-3.5 py-2.5 text-sm ' %}
+    {% endif %}
+
+    {% set iconHtml %}
+    {% if iconName %}
+        {{ iconMacro.getIcon(iconName) }}
+    {% endif %}
+    {% endset %}
+
+    {% if type == 'link' %}
+        <a href="{{ href }}" class="{{- baseClasses -}} {{- sizeClasses -}} {{- typeClasses -}}">
+            {% if iconPosition == 'left' and iconName %}{{ iconHtml | safe }}
+            {% endif %}
+            {{ text }}
+            {% if iconPosition == 'right' and iconName %}{{ iconHtml | safe }}
+            {% endif %}
+        </a>
+    {% else %}
+        <button class="{{ baseClasses }} {{ sizeClasses }} {{ typeClasses }}">
+            {% if iconPosition == 'left' and iconName %}{{ iconHtml | safe }}
+            {% endif %}
+            {{ text }}
+            {% if iconPosition == 'right' and iconName %}{{ iconHtml | safe }}
+            {% endif %}
+        </button>
+    {% endif %}
+{% endmacro %}
+
+{% macro secondary(type, href, text, size = 'default', icon = null, iconPosition = 'left') %}
+    {% set baseClasses = 'rounded-md text-sm font-semibold leading-6 text-gray-900' %}
+
+    {% if size == 'small' %}
+        {% set sizeClasses = ' px-2 py-1 text-xs ' %}
+    {% elif size == 'large' %}
+        {% set sizeClasses = ' px-5 py-3 text-lg ' %}
+    {% else %}
+        {% set sizeClasses = ' px-3.5 py-2.5 text-sm ' %}
+    {% endif %}
+
+    {% set iconHtml %}
+    {% if iconName %}
+        {{ iconMacro.getIcon(iconName) }}
+    {% endif %}
+    {% endset %}
+
+    {% if type == 'link' %}
+        <a href="{{ href }}" class="{{- baseClasses -}} {{- sizeClasses -}} {{- typeClasses -}}">
+            {% if iconPosition == 'left' and icon %}{{ iconHtml | safe }}
+            {% endif %}
+            {{ text }}
+            {% if iconPosition == 'right' and icon %}{{ iconHtml | safe}}
+            {% endif %}
+        </a>
+    {% else %}
+        <button class="{{ baseClasses }} {{ sizeClasses }} {{ typeClasses }}">
+            {% if iconPosition == 'left' and icon %}{{ iconHtml | safe }}
+            {% endif %}
+            {{ text }}
+            {% if iconPosition == 'right' and icon %}{{ iconHtml | safe }}
+            {% endif %}
+        </button>
+    {% endif %}
+{% endmacro %} #}

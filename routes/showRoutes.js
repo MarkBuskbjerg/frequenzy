@@ -7,6 +7,7 @@ const { uploadSingle, uploadFields } = require("../multer.config");
 const categories = require("../utils/categories");
 const languages = require("../utils/languages");
 const timezones = require("../utils/timezones");
+const { uploadFile, BASE_URL } = require("../utils/bunny");
 
 // Middleware to ensure user is authenticated
 const ensureAuthenticated = (req, res, next) => {
@@ -59,29 +60,42 @@ router.post(
     let explicitContent = req.body.explicitContent === "on" ? true : false; // Convert "on" to true and absence to false
 
     // Check if a file was uploaded
-    if (!req.file) {
+    if (req.file) {
+      const fileContent = req.file.buffer; // Get the file buffer
+      const filePath = `users/${req.user.id}/shows/${req.file.originalname}`; // Define the path for the file in BunnyCDN
+
+      try {
+        await uploadFile(filePath, fileContent); // Upload to BunnyCDN
+        // const imageUrl = `${BASE_URL}${filePath}`; // Construct the URL for the stored image
+        const imageUrl = `https://frequenzy.b-cdn.net/${filePath}`;
+
+        const newShow = new Show({
+          userId: req.user.id,
+          title: title,
+          showDescription: showDescription,
+          explicitContent: explicitContent,
+          category: category,
+          showType: showType,
+          author: author,
+          copyright: copyright,
+          keywords: keywords,
+          website: website,
+          language: language,
+          publishTimezone: publishTimezone,
+          showOwner: showOwner,
+          showOwnerEmail: showOwnerEmail,
+          imageUrl: imageUrl,
+        });
+
+        await newShow.save();
+        res.redirect("/my-shows");
+      } catch (error) {
+        console.error("Error uploading to BunnyCDN:", error);
+        res.status(500).send("Internal Server Error");
+      }
+    } else {
       return res.status(400).send("No file uploaded or file type is invalid.");
     }
-
-    const newShow = new Show({
-      userId: req.user.id,
-      title: title,
-      showDescription: showDescription,
-      imageUrl: req.file.path.replace("public", ""),
-      explicitContent: explicitContent,
-      category: category,
-      showType: showType,
-      author: author,
-      copyright: copyright,
-      keywords: keywords,
-      website: website,
-      language: language,
-      publishTimezone: publishTimezone,
-      showOwner: showOwner,
-      showOwnerEmail: showOwnerEmail,
-    });
-    await newShow.save();
-    res.redirect("/my-shows");
   }
 );
 
