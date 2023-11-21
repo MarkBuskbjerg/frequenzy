@@ -3,8 +3,8 @@ module.exports = [
     id: "tier-freelancer",
     title: "Freelancer",
     description: "The essentials to provide your best work for clients.",
-    annualPrice: "$150",
-    monthlyPrice: "$15",
+    annualPrice: "150",
+    monthlyPrice: "15",
     features: [
       "5 products",
       "Up to 1,000 subscribers",
