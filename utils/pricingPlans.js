@@ -1,0 +1,47 @@
+module.exports = [
+  {
+    id: "tier-freelancer",
+    title: "Freelancer",
+    description: "The essentials to provide your best work for clients.",
+    annualPrice: "$150",
+    monthlyPrice: "$15",
+    features: [
+      "5 products",
+      "Up to 1,000 subscribers",
+      "Basic analytics",
+      "48-hour support response time",
+    ],
+    isMostPopular: false,
+  },
+  {
+    id: "tier-startup",
+    title: "Startup",
+    description: "A plan that scales with your rapidly growing business.",
+    annualPrice: "300",
+    monthlyPrice: "30",
+    features: [
+      "25 products",
+      "Up to 10.000 subscribers",
+      "Advanced analytics",
+      "24-hour support response time",
+      "Marketing automations",
+    ],
+    isMostPopular: true,
+  },
+  {
+    id: "tier-startup",
+    title: "Startup",
+    description: "Dedicated support and infrastructure for your company.",
+    annualPrice: "600",
+    monthlyPrice: "60",
+    features: [
+      "Unlimited products",
+      "Unlimited subscribers",
+      "Advanced analytics",
+      "1-hour, dedicated support response time",
+      "Marketing automations",
+      "Custom reporting tools",
+    ],
+    isMostPopular: false,
+  },
+];

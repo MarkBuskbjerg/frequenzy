@@ -1,10 +1,15 @@
-<a class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900" href="/">Home</a>
-{% if isAuthenticated %}
-    <a class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900" href="/my-shows">My shows</a>
-    <a class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900" href="/profile">Profile</a>
-    <a class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900" href="/logout">Log out</a>
-{% else %}
-    <a class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900" href="/pricing">Pricing</a>
-    <a class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-pink-50 bg-gradient-to-tr from-pink-700 to-pink-400 hover:from-pink-800 hover:to-pink-500 lg:text-sm lg:font-semibold lg:leading-6" href="/signup">Sign up</a>
-    <a class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900" href="/login">Log in <span aria-hidden="true">&rarr;</span></a>
-{% endif %}
+<div class="contents" x-data="{ currentUrl: window.location.pathname }">
+    <a class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900" href="/">Home</a>
+    {% if isAuthenticated %}
+        <a class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900" href="/my-shows">My shows</a>
+        <a class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900" href="/profile">Profile</a>
+        <a class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900" href="/logout">Log out</a>
+    {% else %}
+        <a 
+        class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900" 
+        :class="{ 'underline': currentUrl === '/pricing' }"
+        href="/pricing">Pricing</a>
+        <a class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-pink-50 bg-gradient-to-tr from-pink-700 to-pink-400 hover:from-pink-800 hover:to-pink-500 lg:text-sm lg:font-semibold lg:leading-6" href="/signup">Sign up</a>
+        <a class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900" href="/login">Log in <span aria-hidden="true">&rarr;</span></a>
+    {% endif %}
+</div>
